@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NawoTube Clone - Pure HTML/CSS</title>
+    <style>
+        /* --- GLOBAL BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Roboto, Arial, sans-serif; }
+        body { background-color: #0f0f0f; color: #ffffff; overflow-x: hidden; }
+
+        /* --- HEADER / NAVIGATION BAR --- */
+        header { position: fixed; top: 0; left: 0; right: 0; height: 56px; background-color: #0f0f0f; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; z-index: 100; }
+        .logo-section { display: flex; align-items: center; gap: 16px; cursor: pointer; }
+        .menu-icon { font-size: 20px; color: #fff; background: none; border: none; cursor: pointer; }
+        .nawotube-logo { display: flex; align-items: center; font-weight: bold; font-size: 20px; letter-spacing: -1px; }
+        .logo-play { background-color: #4169e1; color: white; padding: 2px 6px; border-radius: 6px; margin-right: 4px; font-weight: 800; font-size: 14px; }
+
+        .search-section { display: flex; align-items: center; width: 40%; max-width: 600px; }
+        .search-bar { width: 100%; height: 40px; background-color: #121212; border: 1px solid #303030; border-radius: 40px 0 0 40px; padding: 0 16px; color: white; font-size: 16px; outline: none; }
+        .search-bar:focus { border: 1px solid #ff69b4; }
+        .search-btn { height: 40px; width: 64px; background-color: #222222; border: 1px solid #303030; border-left: none; border-radius: 0 40px 40px 0; color: white; cursor: pointer; font-size: 16px; }
+        .search-btn:hover { background-color: #272727; }
+
+        .user-section { display: flex; align-items: center; gap: 16px; }
+        .create-btn { background: #272727; border: none; color: white; padding: 8px 16px; border-radius: 18px; font-weight: bold; cursor: pointer; }
+        .profile-pic { width: 32px; height: 32px; background-color: #00a2ff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; cursor: pointer; }
+
+        /* --- MAIN PAGE LAYOUT CONTAINER --- */
+        .main-container { display: flex; margin-top: 56px; height: calc(100vh - 56px); }
+
+        /* --- SIDEBAR NAVIGATION --- */
+        aside { width: 240px; background-color: #0f0f0f; padding: 12px; display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+        .nav-item { display: flex; align-items: center; gap: 24px; padding: 10px 12px; border-radius: 10px; cursor: pointer; text-decoration: none; color: white; font-size: 14px; }
+        .nav-item:hover, .nav-item.active { background-color: #272727; }
+        .nav-item .icon { font-size: 18px; width: 20px; text-align: center; }
+
+        /* --- VIDEO FEED CONTAINER --- */
+        main { flex-grow: 1; padding: 24px; overflow-y: auto; background-color: #0f0f0f; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px 16px; }
+
+        /* --- INDIVIDUAL VIDEO COMPONENT CARD --- */
+        .video-card { display: flex; flex-direction: column; gap: 12px; cursor: pointer; text-decoration: none; color: inherit; }
+        .thumbnail-box { position: relative; width: 100%; aspect-ratio: 16/9; background-color: #222222; border-radius: 12px; overflow: hidden; }
+        .thumbnail-box img { width: 100%; height: 100%; object-fit: cover; }
+        .video-time { position: absolute; bottom: 8px; right: 8px; background-color: rgba(0,0,0,0.8); padding: 3px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+
+        .video-details { display: flex; gap: 12px; }
+        .channel-avatar { width: 36px; height: 36px; background-color: #ff5500; border-radius: 50%; flex-shrink: 0; }
+        .channel-avatar.ch2 { background-color: #8800ff; }
+        .channel-avatar.ch3 { background-color: #00cc44; }
+
+        .meta-text { display: flex; flex-direction: column; gap: 4px; }
+        .video-title { font-size: 14px; font-weight: bold; line-height: 20px; color: #f1f1f1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .channel-name { font-size: 12px; color: #aaa; }
+        .video-stats { font-size: 12px; color: #aaa; }
+
+        /* --- MOBILE RESPONSIVENESS ADJUSTMENTS --- */
+        @media (max-width: 792px) {
+            aside { display: none; } /* Hide heavy sidebar on small screens */
+            .search-section { width: 60%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP CONTROL NAVIGATION -->
+    <header>
+        <div class="logo-section">
+            <button class="menu-icon">☰</button>
+            <div class="nawotube-logo"><span class="logo-play">▶</span>nawotube</div>
+        </div>
+        <div class="search-section">
+            <input type="text" class="search-bar" placeholder="Search">
+            <button class="search-btn">🔍</button>
+        </div>
+        <div class="user-section">
+            <button class="create-btn">+ Create</button>
+            <div class="profile-pic">U</div>
+        </div>
+    </header>
+
+    <!-- WRAPPER LAYOUT -->
+    <div class="main-container">
+
+        <!-- SIDEBAR SYSTEM -->
+        <aside>
+            <a href="#" class="nav-item active"><span class="icon">🏠</span>Home</a>
+            <a href="#" class="nav-item"><span class="icon">🩳</span>Shorts</a>
+            <a href="#" class="nav-item"><span class="icon">📁</span>Subscriptions</a>
+            <hr style="border: 0; border-top: 1px solid #303030; margin: 12px 0;">
+            <a href="#" class="nav-item"><span class="icon">👤</span>You</a>
+            <a href="#" class="nav-item"><span class="icon">⏳</span>History</a>
+            <a href="#" class="nav-item"><span class="icon">🎬</span>Your Videos</a>
+            <a href="#" class="nav-item"><span class="icon">👍</span>Liked Videos</a>
+        </aside>
+
+        <!-- PRIMARY VIDEO HUB PLATFORM -->
+        <main>
+            <div class="video-grid" id="videoGridContainer">
+                <!-- Video items inject dynamically through script execution below -->
+            </div>
+        </main>
+    </div>
+
+    <!-- DOM ARCHITECTURE AUTOMATION SCRIPT -->
+    <script>
+        // Mock dataset modeling incoming server items
+        const mockVideos = [
+            { title: "Building a Custom Game Engine in C++ From Scratch", channel: "DevCodes", views: "142K views", time: "2 days ago", duration: "14:22", avatar: "ch1" },
+            { title: "HTML5 Tutorial for Beginners - Full 6 Hour Course (2026)", channel: "WebMatrix Academy", views: "1.2M views", time: "4 months ago", duration: "6:12:40", avatar: "ch2" },
+            { title: "Why I Left My Silicon Valley Software Engineering Job", channel: "TechVlog", views: "89K views", time: "5 hours ago", duration: "10:05", avatar: "ch3" },
+            { title: "The Ultimate Guide to Responsive Web Frameworks", channel: "DevCodes", views: "45K views", time: "1 week ago", duration: "18:15", avatar: "ch1" },
+            { title: "Creating Modern UI Design Layouts Using Flexbox and CSS Grid", channel: "WebMatrix Academy", views: "310K views", time: "3 weeks ago", duration: "24:50", avatar: "ch2" },
+            { title: "Is This JavaScript Feature Better Than Async/Await?", channel: "TechVlog", views: "215K views", time: "3 days ago", duration: "12:02", avatar: "ch3" }
+        ];
+
+        const container = document.getElementById("videoGridContainer");
+
+        // Loop to dynamically assemble structural UI cards
+        mockVideos.forEach(vid => {
+            const card = document.createElement("div");
+            card.className = "video-card";
+            card.innerHTML = `
+                <div class="thumbnail-box">
+                    <div class="video-time">${vid.duration}</div>
+                </div>
+                <div class="video-details">
+                    <div class="channel-avatar ${vid.avatar}"></div>
+                    <div class="meta-text">
+                        <div class="video-title">${vid.title}</div>
+                        <div class="channel-name">${vid.channel}</div>
+                        <div class="video-stats">${vid.views} • ${vid.time}</div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    </script>
+</body>
+</html>
